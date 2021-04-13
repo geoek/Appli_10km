@@ -12,6 +12,7 @@ import { osmLayer, stamenLayer,zone10km,ocs10km,myposition,zoneAchat,departLayer
 import LayerSwitcher from 'ol-layerswitcher';
 import { BaseLayerOptions, GroupLayerOptions } from 'ol-layerswitcher';
 import {Group} from 'ol/layer'
+import {buildTable, sortTable} from './table.js'
 import {myPositionWfs,ocs10kmWfs} from './layersWfs.js'
 import {departementLayer} from './layersGeojson.js'
 import {setPinOnMap} from './addPoint.js'
@@ -76,7 +77,40 @@ var layerSwitcher = new LayerSwitcher({
 });
 map.addControl(layerSwitcher);
 
+/////////////////////////
+// Gestion de la table //
+/////////////////////////
 
+var myArray = [
+  {'name':'Michael', 'age':'30', 'birthdate':'11/10/1989'},
+  {'name':'Mila', 'age':'32', 'birthdate':'10/1/1989'},
+  {'name':'Paul', 'age':'29', 'birthdate':'10/14/1990'},
+  {'name':'Dennis', 'age':'25', 'birthdate':'11/29/1993'},
+  {'name':'Tim', 'age':'27', 'birthdate':'3/12/1991'},
+  {'name':'Erik', 'age':'24', 'birthdate':'10/31/1995'},
+]
+
+//affichage du tableau
+buildTable(myArray)
+
+//gestion du tri du tableau
+$('th').on('click', function(){
+	var column = $(this).data('column')
+	var order = $(this).data('order')
+	var text = $(this).html()
+	text = text.substring(0, text.length - 1)
+	if(order == 'desc'){
+		$(this).data('order', "asc")
+		myArray = myArray.sort((a,b) => a[column] > b[column] ? 1 : -1)
+		text += '&#9660'
+	}else{
+		$(this).data('order', "desc")
+		myArray = myArray.sort((a,b) => a[column] < b[column] ? 1 : -1)
+		text += '&#9650'
+	}
+	$(this).html(text)
+	buildTable(myArray)
+})
 
 
 /////////////////////////////////////////////////////////////////////
