@@ -12,7 +12,7 @@ import { osmLayer, stamenLayer,zone10km,ocs10km,myposition,zoneAchat,departLayer
 import LayerSwitcher from 'ol-layerswitcher';
 import { BaseLayerOptions, GroupLayerOptions } from 'ol-layerswitcher';
 import {Group} from 'ol/layer'
-import {buildTable, sortTable} from './table.js'
+import {buildTable} from './table.js'
 import {myPositionWfs,ocs10kmWfs} from './layersWfs.js'
 import {departementLayer} from './layersGeojson.js'
 import {setPinOnMap} from './addPoint.js'
@@ -80,7 +80,7 @@ map.addControl(layerSwitcher);
 /////////////////////////
 // Gestion de la table //
 /////////////////////////
-
+/*
 var myArray = [
   {'name':'Michael', 'age':'30', 'birthdate':'11/10/1989'},
   {'name':'Mila', 'age':'32', 'birthdate':'10/1/1989'},
@@ -92,6 +92,7 @@ var myArray = [
 
 //affichage du tableau
 buildTable(myArray)
+*/
 
 //gestion du tri du tableau
 $('th').on('click', function(){
@@ -111,6 +112,7 @@ $('th').on('click', function(){
 	$(this).html(text)
 	buildTable(myArray)
 })
+
 
 
 /////////////////////////////////////////////////////////////////////
@@ -163,8 +165,8 @@ map.on("singleclick", function(evt){
   source.clear()
 })
 
-var graphBtn = document.getElementById("graphBtn");
-graphBtn.onclick = makeGraphs;
+//var graphBtn = document.getElementById("graphBtn");
+//graphBtn.onclick = makeGraphs;
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////

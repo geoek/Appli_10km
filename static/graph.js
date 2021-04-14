@@ -3,21 +3,16 @@ import * as c3 from "c3"
 import "c3/c3.min.css"
 import * as dc from "dc"
 import * as crossfilter from 'crossfilter/crossfilter';
+import {formatDataForTable,buildTable} from './table.js'
 
 import 'regenerator-runtime/runtime'
-/*
-queue()
-    .defer(d3.json, "/getdata")
-    .await(makeGraphs);
-*/
+
+
 function makeGraphs(error, recordsJson) {
-    console.log("Dessin du graph")
-    console.log(JSON.stringify(recordsJson))
 
     async function get() {
         let url = "./getdata/"
         let obj = await (await fetch(url)).json()
-        console.log(obj) 
         return obj
     }
 
@@ -28,6 +23,7 @@ function makeGraphs(error, recordsJson) {
       //console.log(tags)
       //document.getElementById("tags").innerHTML = JSON.stringify(tags);
       traceGraph(tags.features)
+      buildTable(formatDataForTable(tags.features))
     })()
 }
 
@@ -37,7 +33,6 @@ function traceGraph(data) {
         var obj = data[i].properties
         //table.push(["niv " + obj.niv1,obj.area_ha])
         table.push([obj.niv1,obj.area_ha])
-        console.log(table)
     }
 
     var chart = c3.generate({
