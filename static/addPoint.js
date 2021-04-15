@@ -39,7 +39,6 @@ function setPinOnMap(evt){
   
     feature.setStyle(iconStyle);
   
-    console.log(feature)
     let vectorSource = new VectorSrc({
         features: [feature]
     })

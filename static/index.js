@@ -12,7 +12,6 @@ import { osmLayer, stamenLayer,zone10km,ocs10km,myposition,zoneAchat,departLayer
 import LayerSwitcher from 'ol-layerswitcher';
 import { BaseLayerOptions, GroupLayerOptions } from 'ol-layerswitcher';
 import {Group} from 'ol/layer'
-import {buildTable} from './table.js'
 import {myPositionWfs,ocs10kmWfs} from './layersWfs.js'
 import {departementLayer} from './layersGeojson.js'
 import {setPinOnMap} from './addPoint.js'
@@ -70,6 +69,11 @@ var map = new Map({
   }),
 });
 
+zone10km.setVisible(false)
+zoneAchat.setVisible(false)
+myPositionWfs.setVisible(false)
+ocs10km.setVisible(false)
+
 var layerSwitcher = new LayerSwitcher({
   reverse: true,
   activationMode: 'click',
@@ -77,24 +81,9 @@ var layerSwitcher = new LayerSwitcher({
 });
 map.addControl(layerSwitcher);
 
-/////////////////////////
-// Gestion de la table //
-/////////////////////////
-/*
-var myArray = [
-  {'name':'Michael', 'age':'30', 'birthdate':'11/10/1989'},
-  {'name':'Mila', 'age':'32', 'birthdate':'10/1/1989'},
-  {'name':'Paul', 'age':'29', 'birthdate':'10/14/1990'},
-  {'name':'Dennis', 'age':'25', 'birthdate':'11/29/1993'},
-  {'name':'Tim', 'age':'27', 'birthdate':'3/12/1991'},
-  {'name':'Erik', 'age':'24', 'birthdate':'10/31/1995'},
-]
-
-//affichage du tableau
-buildTable(myArray)
-*/
 
 //gestion du tri du tableau
+/*
 $('th').on('click', function(){
 	var column = $(this).data('column')
 	var order = $(this).data('order')
@@ -112,7 +101,7 @@ $('th').on('click', function(){
 	$(this).html(text)
 	buildTable(myArray)
 })
-
+*/
 
 
 /////////////////////////////////////////////////////////////////////
@@ -151,9 +140,16 @@ map.on("singleclick", function(evt){
       y: y
     },
     success: function(response) {
+      zone10km.setVisible(true)
+      zoneAchat.setVisible(true)
+      myPositionWfs.setVisible(true)
+      ocs10km.setVisible(true)
+      //zoom sur la position
+      map.getView().setZoom(11)
+      map.getView().setCenter([x,y])
       //refresh de la map
       zone10km.getSource().updateParams({"time": Date.now()})     //Refreq WMS Layer
-      ocs10km.getSource().updateParams({"time": Date.now()})     //Refreq WMS Layer
+      ocs10km.getSource().updateParams({"time": Date.now()})      //Refreq WMS Layer
       zoneAchat.getSource().updateParams({"time": Date.now()})
       myPositionWfs.getSource().refresh()                         //Refreq WFS Layer
       makeGraphs()
@@ -165,9 +161,33 @@ map.on("singleclick", function(evt){
   source.clear()
 })
 
+document.getElementById('resetBtn').addEventListener('click', ()=>{
+  zone10km.setVisible(false)
+  zoneAchat.setVisible(false)
+  myPositionWfs.setVisible(false)
+  ocs10km.setVisible(false)
+  document.getElementById("ocsTable").style.display = "none"
+  document.getElementById("chart").style.display = "none"
+  document.getElementById("resetBtn").style.display = "none"
+  document.getElementById("radioControl").style.display = "none"
+});
 //var graphBtn = document.getElementById("graphBtn");
 //graphBtn.onclick = makeGraphs;
 
+
+$('input[type=radio][name=graphRadioGroup]').on('change', function() {
+  switch ($(this).val()) {
+
+    case 'graph':
+      document.getElementById("chart").style.display = "block"
+      document.getElementById("ocsTable").style.display = "none"
+      break;
+    case 'table':
+      document.getElementById("chart").style.display = "none"
+      document.getElementById("ocsTable").style.display = "block"
+      break;
+  }
+});
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////

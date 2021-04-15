@@ -16,7 +16,7 @@ import {Image as ImageLayer, Tile as TileLayer} from 'ol/layer';
     source: new Stamen({
       layer: 'watercolor',
     }),
-    opacity: 0.5,
+    opacity: 0.8,
     type: 'base',
     title: 'Stamen WMS',  
   })
@@ -75,7 +75,7 @@ import {Image as ImageLayer, Tile as TileLayer} from 'ol/layer';
     extent: [-601486,4091922,1652323,7173780],
     source: new ImageWMS({
       url: 'http://localhost:8080/geoserver/MyGeoServer/wms',
-      params: {'LAYERS': 'MyGeoServer:clc18_10km_niv1'},
+      params: {'LAYERS': 'MyGeoServer:clc18_10km_niv1',"transparent": true},
       ratio: 1,
       serverType: 'geoserver',
     }),

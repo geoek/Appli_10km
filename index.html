@@ -17,10 +17,48 @@
       <div class="row">
         <div class="col-8" id="map"></div>
         <div class="col-4 text-justify">
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga reprehenderit officiis tempore ratione ut et sequi quod. Asperiores quasi iste suscipit! Commodi numquam placeat veniam voluptate corrupti modi saepe dolor.</p>
+          <h4 class="text-center">Zones accessibles</h4>
           <!--<a href="#" class="btn btn-warning" id="graphBtn">Graphes</a>-->
+          <br>
+          <p class="text-justify">Cliquez sur la carte pour sélectionner une position</p>
+          <div id="radioControl" style="display:none">
+            <!-- Default radio -->
+            <input
+              class="form-check-input"
+              type="radio"
+              name="graphRadioGroup"
+              id="graphRadio"
+              checked="checked"
+              value="graph"
+            />
+            <label class="form-check-label" for="graphRadio"> Graphe </label>
+            <br>
+            <input
+              class="form-check-input"
+              type="radio"
+              name="graphRadioGroup"
+              id="tableRadio"
+              value="table"
+            />
+            <label class="form-check-label" for="tableRadio"> Table </label>
+          </div>
+
+          <!-- GRAPHE OCS -->
           <div id="chart" style="display: none"></div>
-         </div>
+
+          <!-- TABLE  OCS -->
+          <table id="ocsTable" class="table table-striped text-center" style="display: none">
+            <tr  class="bg-info">
+              <th data-column="niveau" data-order="desc">Niveau</th>
+              <th data-column="surface" data-order="desc">Surface (ha)</th>
+            </tr>
+            <tbody id="myTable">
+            </tbody>
+          </table>
+          <!--</div>-->
+
+
+        </div>
       </div>
       <br>
       <div class="row">
@@ -30,16 +68,8 @@
             <a href="#" class="col-3 btn btn-primary">Rechercher</a>
           </div>
         </div>
-                  
-        <div class="col-4">
-          <table class="table table-striped">
-            <tr  class="bg-info">
-              <th data-column="niveau" data-order="desc">Niveau &#9650</th>
-              <th data-column="surface" data-order="desc">Surface (ha) &#9650</th>
-            </tr>
-            <tbody id="myTable">
-            </tbody>
-          </table>
+        <div class="col text-center">
+          <a href="#" id="resetBtn" class="col-4 btn btn-primary" style="display: none">Réinitialiser</a>
         </div>
       </div>
 

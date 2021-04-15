@@ -5,7 +5,7 @@ import {Fill, Stroke, Style, Text} from 'ol/style';
 
 var departementStyle = new Style({
     fill: new Fill({
-      color: 'rgba(255, 255, 255, 0.6)',
+      color: 'rgba(255, 255, 255, 0.2)',
     }),
     stroke: new Stroke({
       color: '#319FD3',

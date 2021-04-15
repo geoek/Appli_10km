@@ -3,7 +3,6 @@ import * as c3 from "c3"
 import "c3/c3.min.css"
 import * as dc from "dc"
 import * as crossfilter from 'crossfilter/crossfilter';
-import {formatDataForTable,buildTable} from './table.js'
 
 import 'regenerator-runtime/runtime'
 
@@ -49,13 +48,34 @@ function traceGraph(data) {
             onmouseover: function (d, i) { console.log("onmouseover", d, i); },
             onmouseout: function (d, i) { console.log("onmouseout", d, i); }
         }
-    })
+    }) 
+}
 
+function formatDataForTable(inputData){
+    var outputData = []
+    for (var i = 0; i < inputData.length; i++){
+        outputData.push(inputData[i].properties)
+    }    
+    return(outputData)
+}
 
-
+function buildTable(data){
+    var table = document.getElementById('myTable')
+    table.innerHTML = '' // pour effacer la table précédente dans le cas d'un sort
+    for (var i = 0; i < data.length; i++){
+        var row = `<tr>
+                        <td>${data[i].niv1}</td>
+                        <td>${~~(data[i].area_ha)}</td>
+                  </tr>`
+        table.innerHTML += row
+    }
     var chartDiv = document.getElementById("chart")
     chartDiv.style.display = "block"
-
+    var tableDiv = document.getElementById("ocsTable")
+    tableDiv.style.display = "none"
+    document.getElementById("resetBtn").style.display = "block"
+    document.getElementById("radioControl").style.display = "block"
+    document.getElementById("graphRadio").checked = true;
 }
 
 export {makeGraphs}
