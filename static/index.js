@@ -1,6 +1,10 @@
 /*************************************** */
 /* AFFICHAGE D'UNE COUCHE WMS NON TUILEE */
 /*************************************** */
+
+// Import all bootstrap plugins
+import * as bootstrap from 'bootstrap';
+
 import 'ol/ol.css'
 import 'ol-layerswitcher/dist/ol-layerswitcher.css';
 import Map from 'ol/Map'

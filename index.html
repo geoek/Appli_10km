@@ -15,51 +15,76 @@
       </div>
       <br>
       <div class="row">
+        <!-- MAP -->
         <div class="col-8" id="map"></div>
-        <div class="col-4 text-justify">
-          <h4 class="text-center">Zones accessibles</h4>
-          <!--<a href="#" class="btn btn-warning" id="graphBtn">Graphes</a>-->
-          <br>
-          <p class="text-justify">Cliquez sur la carte pour sélectionner une position</p>
-          <div id="radioControl" style="display:none">
-            <!-- Default radio -->
-            <input
-              class="form-check-input"
-              type="radio"
-              name="graphRadioGroup"
-              id="graphRadio"
-              checked="checked"
-              value="graph"
-            />
-            <label class="form-check-label" for="graphRadio"> Graphe </label>
-            <br>
-            <input
-              class="form-check-input"
-              type="radio"
-              name="graphRadioGroup"
-              id="tableRadio"
-              value="table"
-            />
-            <label class="form-check-label" for="tableRadio"> Table </label>
+        <!-- Onglets Stats -->
+        <div class="panel-body col-4" >
+          <ul class="nav nav-tabs nav-justified">
+            <li class="nav-item">
+              <a class="nav-link active" id="ocsid" data-toggle="tab" role="tab" aria-controls="home" aria-selected="true" href="#ocs" >OCS</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="poiid" data-toggle="tab" role="tab" aria-controls="home" aria-selected="false" href="#poi">POI</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Help</a>
+            </li>
+          </ul>
+          <div class="tab-content" id="continue">
+            <div class="tab-pane fade show active" id="ocs" role="tabpanel" arial-labelledby="ocsid">
+              <!-- ONGLET OCS -->
+              <div class="text-justify">
+                <h4 class="text-center">Zones accessibles</h4>
+                <!--<a href="#" class="btn btn-warning" id="graphBtn">Graphes</a>-->
+                <br>
+                <p class="text-justify">Cliquez sur la carte pour sélectionner une position</p>
+                <div id="radioControl" style="display:none">
+                  <!-- Default radio -->
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="graphRadioGroup"
+                    id="graphRadio"
+                    checked="checked"
+                    value="graph"
+                  />
+                  <label class="form-check-label" for="graphRadio"> Graphe </label>
+                  <br>
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="graphRadioGroup"
+                    id="tableRadio"
+                    value="table"
+                  />
+                  <label class="form-check-label" for="tableRadio"> Table </label>
+                </div>
+    
+                <!-- GRAPHE OCS -->
+                <div id="chart" style="display: none"></div>
+    
+                <!-- TABLE  OCS -->
+                <table id="ocsTable" class="table table-striped text-center" style="display: none">
+                  <tr  class="bg-info">
+                    <th data-column="niveau" data-order="desc">Niveau</th>
+                    <th data-column="surface" data-order="desc">Surface (ha)</th>
+                  </tr>
+                  <tbody id="myTable">
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            
+            <div class="tab-pane fade" id="poi" role="tabpanel" arial-labelledby="poiid">
+              <!-- ONGLET POI -->
+              <p> Onglet POI</p>
+            </div>
           </div>
 
-          <!-- GRAPHE OCS -->
-          <div id="chart" style="display: none"></div>
 
-          <!-- TABLE  OCS -->
-          <table id="ocsTable" class="table table-striped text-center" style="display: none">
-            <tr  class="bg-info">
-              <th data-column="niveau" data-order="desc">Niveau</th>
-              <th data-column="surface" data-order="desc">Surface (ha)</th>
-            </tr>
-            <tbody id="myTable">
-            </tbody>
-          </table>
-          <!--</div>-->
-
-
-        </div>
-      </div>
+        </div> <!-- Fin de Onglet OCS -->
+      </div> <!-- Fin de Row Map Onglet-->
       <br>
       <div class="row">
         <div class="col-8">

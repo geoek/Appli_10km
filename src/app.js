@@ -47,6 +47,10 @@ app.get('/demo',(request,response) => {
     response.sendFile(path.join(__dirname+'/../index.html'));
 })
 
+app.get('/testonglet',(request,response) => {
+    response.sendFile(path.join(__dirname+'/../test.html'));
+})
+
 app.get('/test',(request,response) => {
     response.send('test')
 })
