@@ -12,7 +12,7 @@ import View from 'ol/View'
 import {ScaleLine, defaults as defaultControls} from 'ol/control'
 import proj4 from 'proj4'
 import {register} from 'ol/proj/proj4';
-import { osmLayer, stamenLayer,zone10km,ocs10km,myposition,zoneAchat,departLayer,departParamLayer } from './layersWms.js'
+import { osmLayer, stamenLayer,zone10km,ocs10km,poi10km,myposition,zoneAchat,departLayer,departParamLayer } from './layersWms.js'
 import LayerSwitcher from 'ol-layerswitcher';
 import { BaseLayerOptions, GroupLayerOptions } from 'ol-layerswitcher';
 import {Group} from 'ol/layer'
@@ -20,7 +20,8 @@ import {myPositionWfs,ocs10kmWfs} from './layersWfs.js'
 import {departementLayer} from './layersGeojson.js'
 import {setPinOnMap} from './addPoint.js'
 import {setBuffer} from './setBuffer.js'
-import {makeGraphs} from './graph.js'
+import {makeGraphs} from './ocsGraph.js'
+import {makePoiGraphs} from './poiGraph.js'
 import VectorSrc from 'ol/source/Vector'
 import VectorLayer from 'ol/layer/Vector'
 import {GeoJSON} from 'ol/format'
@@ -55,7 +56,7 @@ var baselayers = new Group({
 
 var overlays = new Group({
   title: 'Overlays',
-  layers: [departementLayer,zoneAchat,zone10km,ocs10km,myPositionWfs]
+  layers: [departementLayer,zoneAchat,zone10km,ocs10km,poi10km,myPositionWfs]
 });
 
 var map = new Map({
@@ -77,6 +78,7 @@ zone10km.setVisible(false)
 zoneAchat.setVisible(false)
 myPositionWfs.setVisible(false)
 ocs10km.setVisible(false)
+poi10km.setVisible(false)
 
 var layerSwitcher = new LayerSwitcher({
   reverse: true,
@@ -121,7 +123,6 @@ var draw = new Draw({
 map.addInteraction(draw);
 
 
-
 map.on("singleclick", function(evt){
   //juste pour afficher les coordonnées
   var writer = new GeoJSON();
@@ -147,16 +148,23 @@ map.on("singleclick", function(evt){
       zone10km.setVisible(true)
       zoneAchat.setVisible(true)
       myPositionWfs.setVisible(true)
-      ocs10km.setVisible(true)
+      if ($("#ocsid").hasClass("active")) {
+        ocs10km.setVisible(true)
+      }
+      if ($("#poiid").hasClass("active")) {
+        poi10km.setVisible(true)
+      }
       //zoom sur la position
-      map.getView().setZoom(11)
+      map.getView().setZoom(10)
       map.getView().setCenter([x,y])
       //refresh de la map
       zone10km.getSource().updateParams({"time": Date.now()})     //Refreq WMS Layer
       ocs10km.getSource().updateParams({"time": Date.now()})      //Refreq WMS Layer
+      poi10km.getSource().updateParams({"time": Date.now()})      //Refreq WMS Layer
       zoneAchat.getSource().updateParams({"time": Date.now()})
       myPositionWfs.getSource().refresh()                         //Refreq WFS Layer
       makeGraphs()
+      makePoiGraphs()
     },
     error: function(xhr) {
       console.log('ko')
@@ -165,11 +173,16 @@ map.on("singleclick", function(evt){
   source.clear()
 })
 
+////////////////////////
+// RESET POSITION BTN //
+////////////////////////
+
 document.getElementById('resetBtn').addEventListener('click', ()=>{
   zone10km.setVisible(false)
   zoneAchat.setVisible(false)
   myPositionWfs.setVisible(false)
   ocs10km.setVisible(false)
+  poi10km.setVisible(false)
   document.getElementById("ocsTable").style.display = "none"
   document.getElementById("chart").style.display = "none"
   document.getElementById("resetBtn").style.display = "none"
@@ -179,9 +192,12 @@ document.getElementById('resetBtn').addEventListener('click', ()=>{
 //graphBtn.onclick = makeGraphs;
 
 
+///////////////////////////
+// Controles ONGLETS OCS //
+///////////////////////////
+
 $('input[type=radio][name=graphRadioGroup]').on('change', function() {
   switch ($(this).val()) {
-
     case 'graph':
       document.getElementById("chart").style.display = "block"
       document.getElementById("ocsTable").style.display = "none"
@@ -192,6 +208,30 @@ $('input[type=radio][name=graphRadioGroup]').on('change', function() {
       break;
   }
 });
+
+
+/////////////////////////////
+// CONTROLES CHGMT ONGLETS //
+/////////////////////////////
+
+$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+  if (e.target.id == 'ocsid') {
+    console.log("OCS Tab")
+    ocs10km.setVisible(true)
+    poi10km.setVisible(false)    
+  } else if (e.target.id == 'poiid') {
+    console.log("POI Tab")
+    ocs10km.setVisible(false)
+    poi10km.setVisible(true)
+  } 
+})
+
+
+
+
+
+
+
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////

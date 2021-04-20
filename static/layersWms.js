@@ -82,6 +82,18 @@ import {Image as ImageLayer, Tile as TileLayer} from 'ol/layer';
     title: 'OCS 10km WMS (PostGis)',
   })
   
+  // couche poi10km from Postgres
+  let poi10km = new ImageLayer({
+    extent: [-601486,4091922,1652323,7173780],
+    source: new ImageWMS({
+      url: 'http://localhost:8080/geoserver/MyGeoServer/wms',
+      params: {'LAYERS': 'MyGeoServer:v_poi_10km',"transparent": true},
+      ratio: 1,
+      serverType: 'geoserver',
+    }),
+    title: 'POI 10km WMS (PostGis)',
+  })
+  
   // couche WMS from SQL paramétrique
   let numDept = 24
   let filtre = 'num_dept:'+ numDept
@@ -97,4 +109,4 @@ import {Image as ImageLayer, Tile as TileLayer} from 'ol/layer';
     title: 'Departements Param WMS (PostGis)',
   })
 
-  export { osmLayer, stamenLayer,zone10km,ocs10km,myposition,zoneAchat,departLayer,departParamLayer };
+  export { osmLayer, stamenLayer,zone10km,ocs10km,poi10km,myposition,zoneAchat,departLayer,departParamLayer };

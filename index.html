@@ -9,7 +9,7 @@
   </head>
   <body>
 
-    <div class="container">
+    <div class="container-fluid">
       <div class="text-center">
         <h1>Test 10 km</h1>
       </div>
@@ -17,8 +17,9 @@
       <div class="row">
         <!-- MAP -->
         <div class="col-8" id="map"></div>
-        <!-- Onglets Stats -->
+        <!-- Onglets -->
         <div class="panel-body col-4" >
+          <!-- Menu des onglets -->
           <ul class="nav nav-tabs nav-justified">
             <li class="nav-item">
               <a class="nav-link active" id="ocsid" data-toggle="tab" role="tab" aria-controls="home" aria-selected="true" href="#ocs" >OCS</a>
@@ -30,6 +31,7 @@
               <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Help</a>
             </li>
           </ul>
+          <!-- Fin du menu -->
           <div class="tab-content" id="continue">
             <div class="tab-pane fade show active" id="ocs" role="tabpanel" arial-labelledby="ocsid">
               <!-- ONGLET OCS -->
@@ -78,7 +80,19 @@
             
             <div class="tab-pane fade" id="poi" role="tabpanel" arial-labelledby="poiid">
               <!-- ONGLET POI -->
-              <p> Onglet POI</p>
+              <div class="text-justify" style="overflow: auto; height: 450px">
+                <h4 class="text-center">POI accessibles</h4>
+                <!-- TABLE  POI -->
+                <table id="poiTable" class="table table-striped text-center" style="display: block">
+                  <tr  class="bg-info">
+                    <th data-column="id" data-order="desc">id</th>
+                    <th data-column="type" data-order="desc">type</th>
+                    <!--<th data-column="souscat" data-order="desc">souscat</th>-->
+                  </tr>
+                  <tbody id="poiTableContent">
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
 
