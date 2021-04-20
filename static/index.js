@@ -215,11 +215,11 @@ $('input[type=radio][name=graphRadioGroup]').on('change', function() {
 /////////////////////////////
 
 $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-  if (e.target.id == 'ocsid') {
+  if (e.target.id == 'ocsid' && zone10km.getVisible()) {
     console.log("OCS Tab")
     ocs10km.setVisible(true)
     poi10km.setVisible(false)    
-  } else if (e.target.id == 'poiid') {
+  } else if (e.target.id == 'poiid' && zone10km.getVisible()) {
     console.log("POI Tab")
     ocs10km.setVisible(false)
     poi10km.setVisible(true)

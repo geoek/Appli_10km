@@ -82,8 +82,30 @@
               <!-- ONGLET POI -->
               <div class="text-justify" style="overflow: auto; height: 450px">
                 <h4 class="text-center">POI accessibles</h4>
-                <!-- TABLE  POI -->
-                <table id="poiTable" class="table table-striped text-center" style="display: block">
+                <!-- LISTE DEROULANTE FILTRE -->
+                <div class="dropdown">
+                  <a class="btn btn-info dropdown-toggle" href="#" role="button" id="filtrePoiBtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Catégorie
+                  </a>
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                    <a class="dropdown-item" href="#">Sport</a>
+                    <a class="dropdown-item" href="#">Site historique</a>
+                    <a class="dropdown-item" href="#">Librairies</a>
+                    <a class="dropdown-item" href="#">Cinema</a>
+                  </div>
+                </div>
+                <br>
+                <!-- TABLE  POI AGG-->
+                <table id="poiAggTable" class="table table-striped text-center" style="display: block">
+                  <tr  class="bg-info">
+                    <th data-column="id" data-order="desc">type</th>
+                    <th data-column="type" data-order="desc">nb</th>
+                    <!--<th data-column="souscat" data-order="desc">souscat</th>-->
+                  </tr>
+                  <tbody id="poiAggTableContent">
+                  </tbody>
+                </table><!-- TABLE  POI -->
+                <table id="poiTable" class="table table-striped text-center" style="display: none">
                   <tr  class="bg-info">
                     <th data-column="id" data-order="desc">id</th>
                     <th data-column="type" data-order="desc">type</th>
