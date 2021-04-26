@@ -99,13 +99,6 @@ app.get('/getpoiaggdata/', (request, response) => {
     response.redirect(301, url);
 });
 
-app.get('/getpoisportdata/', (request, response) => {
-    //    client.query('SELECT * FROM covid19.dept_metropole where id = $1', [2], function (err, result) {
-    var url = "http://localhost:8080/geoserver/MyGeoServer/wfs?service=WFS&version=1.1.0&request=getfeature&typeNames=v_poi_10km&srsName=epsg:2154&outputFormat=application/json";
-    response.redirect(301, url);
-});
-
-
 
 app.get('/reqwfs3/', (request, response) => {
     var url = "http://localhost:8080/geoserver/MyGeoServer/wfs?service=WFS&version=1.1.0&request=GetFeature&typeNames=MyGeoServer:dept_metropole&featureID=4&outputFormat=application/json";

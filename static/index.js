@@ -21,7 +21,7 @@ import {departementLayer} from './layersGeojson.js'
 import {setPinOnMap} from './addPoint.js'
 import {setBuffer} from './setBuffer.js'
 import {makeGraphs} from './ocsGraph.js'
-import {makePoiGraphs,makePoiSportGraphs} from './poiGraph.js'
+import {makePoiGraphs} from './poiGraph.js'
 import VectorSrc from 'ol/source/Vector'
 import VectorLayer from 'ol/layer/Vector'
 import {GeoJSON} from 'ol/format'
@@ -170,7 +170,7 @@ map.on("singleclick", function(evt){
       document.getElementById("poiTable").style.display = "none"
       //refresh des stats
       makeGraphs()
-      makePoiGraphs()
+      makePoiGraphs("Categories")
     },
     error: function(xhr) {
       console.log('ko')
@@ -229,11 +229,16 @@ document.getElementById("liensDropdown").addEventListener('click', ()=>{
   //mise à jour du label de la liste déroulante
   document.getElementById("filtrePoiBtn").innerHTML = txt
   //affichage du tableau concerné
-  if (txt == 'Sport') {
+  if (txt != 'Catégories') {
     document.getElementById("poiAggTable").style.display = "none"
     document.getElementById("poiTable").style.display = "block"
-    makePoiSportGraphs()
+    makePoiGraphs(txt.toLowerCase().replace(/ /g, ""))
   }
+  else {
+    document.getElementById("poiAggTable").style.display = "block"
+    document.getElementById("poiTable").style.display = "none"
+  }
+
 })
 
 
