@@ -11,7 +11,7 @@
 
     <div class="container-fluid">
       <div class="text-center">
-        <h1>Test 10 km</h1>
+        <h1>Dans mes 10 km...</h1>
       </div>
       <br>
       <div class="row">
@@ -87,7 +87,7 @@
                   <a class="btn btn-info dropdown-toggle" href="#" role="button" id="filtrePoiBtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Catégorie
                   </a>
-                  <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                  <div id="liensDropdown" class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                     <a class="dropdown-item" href="#">Sport</a>
                     <a class="dropdown-item" href="#">Site historique</a>
                     <a class="dropdown-item" href="#">Librairies</a>
@@ -96,7 +96,7 @@
                 </div>
                 <br>
                 <!-- TABLE  POI AGG-->
-                <table id="poiAggTable" class="table table-striped text-center" style="display: block">
+                <table id="poiAggTable" class="table table-striped text-center" style="display: none">
                   <tr  class="bg-info">
                     <th data-column="id" data-order="desc">type</th>
                     <th data-column="type" data-order="desc">nb</th>
@@ -108,8 +108,7 @@
                 <table id="poiTable" class="table table-striped text-center" style="display: none">
                   <tr  class="bg-info">
                     <th data-column="id" data-order="desc">id</th>
-                    <th data-column="type" data-order="desc">type</th>
-                    <!--<th data-column="souscat" data-order="desc">souscat</th>-->
+                    <th data-column="souscat" data-order="desc">souscat</th>
                   </tr>
                   <tbody id="poiTableContent">
                   </tbody>

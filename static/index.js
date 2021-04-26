@@ -21,7 +21,7 @@ import {departementLayer} from './layersGeojson.js'
 import {setPinOnMap} from './addPoint.js'
 import {setBuffer} from './setBuffer.js'
 import {makeGraphs} from './ocsGraph.js'
-import {makePoiGraphs} from './poiGraph.js'
+import {makePoiGraphs,makePoiSportGraphs} from './poiGraph.js'
 import VectorSrc from 'ol/source/Vector'
 import VectorLayer from 'ol/layer/Vector'
 import {GeoJSON} from 'ol/format'
@@ -163,6 +163,12 @@ map.on("singleclick", function(evt){
       poi10km.getSource().updateParams({"time": Date.now()})      //Refreq WMS Layer
       zoneAchat.getSource().updateParams({"time": Date.now()})
       myPositionWfs.getSource().refresh()                         //Refreq WFS Layer
+      // refresh de l'onglet POI
+      document.getElementById("filtrePoiBtn").innerHTML = 'Catégories'
+      //affichage du tableau concerné
+      document.getElementById("poiAggTable").style.display = "block"
+      document.getElementById("poiTable").style.display = "none"
+      //refresh des stats
       makeGraphs()
       makePoiGraphs()
     },
@@ -187,6 +193,11 @@ document.getElementById('resetBtn').addEventListener('click', ()=>{
   document.getElementById("chart").style.display = "none"
   document.getElementById("resetBtn").style.display = "none"
   document.getElementById("radioControl").style.display = "none"
+  //init onglet POI
+  document.getElementById("filtrePoiBtn").innerHTML = 'Catégories'
+  //affichage du tableau concerné
+  document.getElementById("poiAggTable").style.display = "none"
+  document.getElementById("poiTable").style.display = "none"
 });
 //var graphBtn = document.getElementById("graphBtn");
 //graphBtn.onclick = makeGraphs;
@@ -209,6 +220,23 @@ $('input[type=radio][name=graphRadioGroup]').on('change', function() {
   }
 });
 
+//////////////////////////
+// Controles ONGLET POI //
+//////////////////////////
+
+document.getElementById("liensDropdown").addEventListener('click', ()=>{
+  var txt = event.target.innerHTML
+  //mise à jour du label de la liste déroulante
+  document.getElementById("filtrePoiBtn").innerHTML = txt
+  //affichage du tableau concerné
+  if (txt == 'Sport') {
+    document.getElementById("poiAggTable").style.display = "none"
+    document.getElementById("poiTable").style.display = "block"
+    makePoiSportGraphs()
+  }
+})
+
+
 
 /////////////////////////////
 // CONTROLES CHGMT ONGLETS //
@@ -225,11 +253,6 @@ $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
     poi10km.setVisible(true)
   } 
 })
-
-
-
-
-
 
 
 
