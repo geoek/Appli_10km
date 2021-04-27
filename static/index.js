@@ -13,6 +13,9 @@ import {ScaleLine, defaults as defaultControls} from 'ol/control'
 import proj4 from 'proj4'
 import {register} from 'ol/proj/proj4';
 import { osmLayer, stamenLayer,zone10km,ocs10km,poi10km,myposition,zoneAchat,departLayer,departParamLayer } from './layersWms.js'
+import Feature from 'ol/Feature';
+import {Circle as CircleStyle, Fill, Stroke, Style} from 'ol/style';
+import Point from 'ol/geom/Point';
 import LayerSwitcher from 'ol-layerswitcher';
 import { BaseLayerOptions, GroupLayerOptions } from 'ol-layerswitcher';
 import {Group} from 'ol/layer'
@@ -22,11 +25,15 @@ import {setPinOnMap} from './addPoint.js'
 import {setBuffer} from './setBuffer.js'
 import {makeGraphs} from './ocsGraph.js'
 import {makePoiGraphs} from './poiGraph.js'
+import Geolocation from 'ol/Geolocation';
+import {activGeoloc} from './geolocalisation.js'
 import VectorSrc from 'ol/source/Vector'
 import VectorLayer from 'ol/layer/Vector'
 import {GeoJSON} from 'ol/format'
 import Draw from 'ol/interaction/Draw'
 import $ from 'jquery'; // pour AJAX acces postGis
+
+
 
 // ajout de la projection 2154
 proj4.defs('EPSG:2154',"+proj=lcc +lat_1=49 +lat_2=44 +lat_0=46.5 +lon_0=3 +x_0=700000 +y_0=6600000 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs");
@@ -51,7 +58,7 @@ register(proj4);
 
 var baselayers = new Group({
   'title': 'Base Maps',
-  layers: [osmLayer, stamenLayer]
+  layers: [stamenLayer,osmLayer]
 });
 
 var overlays = new Group({
@@ -69,7 +76,7 @@ var map = new Map({
   view: new View({
     projection: 'EPSG:2154',
     center: [771000,6200000],
-    zoom: 8,
+    zoom: 9,
     extent: [50000, 5800000, 1300000, 7200000],  
   }),
 });
@@ -124,18 +131,23 @@ map.addInteraction(draw);
 
 
 map.on("singleclick", function(evt){
+  /*
   //juste pour afficher les coordonnées
   var writer = new GeoJSON();
   var geojsonStr = writer.writeFeatures(source.getFeatures(), {
     dataProjection: 'EPSG:2154',
     featureProjection: 'EPSG:2154'
-  })
+  })*/
 
   // récupération des coordonnées
   let coord = source.getFeatures()[0].values_.geometry.flatCoordinates
   let x = coord[0]
   let y = coord[1]
 
+  calculateData(x,y)
+})
+
+function calculateData(x,y) {
   // appel Ajax pour acces base de données (changement de myposition)
   $.ajax({
     url: "./setsql/",
@@ -155,7 +167,7 @@ map.on("singleclick", function(evt){
         poi10km.setVisible(true)
       }
       //zoom sur la position
-      map.getView().setZoom(10)
+      map.getView().setZoom(11)
       map.getView().setCenter([x,y])
       //refresh de la map
       zone10km.getSource().updateParams({"time": Date.now()})     //Refreq WMS Layer
@@ -177,7 +189,7 @@ map.on("singleclick", function(evt){
     }
   });
   source.clear()
-})
+}
 
 ////////////////////////
 // RESET POSITION BTN //
@@ -201,6 +213,64 @@ document.getElementById('resetBtn').addEventListener('click', ()=>{
 });
 //var graphBtn = document.getElementById("graphBtn");
 //graphBtn.onclick = makeGraphs;
+
+////////////////////////
+//   GEOLOC     BTN   //
+////////////////////////
+
+document.getElementById('geolocBtn').addEventListener('click', ()=>{
+  geolocation.setTracking(true);
+})
+
+var geolocation = new Geolocation({
+  // enableHighAccuracy must be set to true to have the heading value.
+  trackingOptions: {
+    enableHighAccuracy: true,
+  },
+  projection: map.getView().getProjection(),
+});
+
+var positionGeoloc = new Feature();
+positionGeoloc.setStyle(
+  new Style({
+    image: new CircleStyle({
+      radius: 3,
+      fill: new Fill({
+        color: '#3399CC',
+      }),
+      stroke: new Stroke({
+        color: '#fff',
+        width: 0.5,
+      }),
+    }),
+  })
+);
+
+geolocation.on('change:position', function () {
+  var coordinates = geolocation.getPosition();
+  console.log(coordinates)
+  positionGeoloc.setGeometry(coordinates ? new Point(coordinates) : null);
+  calculateData(coordinates[0],coordinates[1])
+});
+
+// handle geolocation error.
+geolocation.on('error', function (error) {
+  var info = document.getElementById('info');
+  info.innerHTML = error.message;
+  info.style.display = '';
+});
+
+var accuracyFeature = new Feature();
+geolocation.on('change:accuracyGeometry', function () {
+  accuracyFeature.setGeometry(geolocation.getAccuracyGeometry());
+});
+
+new VectorLayer({
+  map: map,
+  source: new VectorSrc({
+    features: [accuracyFeature, positionGeoloc],
+  }),
+});
 
 
 ///////////////////////////
