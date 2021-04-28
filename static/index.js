@@ -19,7 +19,7 @@ import Point from 'ol/geom/Point';
 import LayerSwitcher from 'ol-layerswitcher';
 import { BaseLayerOptions, GroupLayerOptions } from 'ol-layerswitcher';
 import {Group} from 'ol/layer'
-import {myPositionWfs,ocs10kmWfs} from './layersWfs.js'
+import {myPositionWfs,ocs10kmWfs,poi10kmWfs} from './layersWfs.js'
 import {departementLayer} from './layersGeojson.js'
 import {setPinOnMap} from './addPoint.js'
 import {setBuffer} from './setBuffer.js'
@@ -63,7 +63,7 @@ var baselayers = new Group({
 
 var overlays = new Group({
   title: 'Overlays',
-  layers: [departementLayer,zoneAchat,zone10km,ocs10km,poi10km,myPositionWfs]
+  layers: [departementLayer,zoneAchat,zone10km,ocs10km,poi10kmWfs,myPositionWfs]
 });
 
 var map = new Map({
@@ -85,7 +85,7 @@ zone10km.setVisible(false)
 zoneAchat.setVisible(false)
 myPositionWfs.setVisible(false)
 ocs10km.setVisible(false)
-poi10km.setVisible(false)
+poi10kmWfs.setVisible(false)
 
 var layerSwitcher = new LayerSwitcher({
   reverse: true,
@@ -139,6 +139,10 @@ map.on("singleclick", function(evt){
     featureProjection: 'EPSG:2154'
   })*/
 
+  //désactivation de la localisation auto
+  document.getElementById('geolocCheckBox').checked = false
+  geolocation.setTracking(false) //car la fonction change sur la checkbox n'est pas appellé automatiquement dans ce cas 
+
   // récupération des coordonnées
   let coord = source.getFeatures()[0].values_.geometry.flatCoordinates
   let x = coord[0]
@@ -164,7 +168,7 @@ function calculateData(x,y) {
         ocs10km.setVisible(true)
       }
       if ($("#poiid").hasClass("active")) {
-        poi10km.setVisible(true)
+        poi10kmWfs.setVisible(true)
       }
       //zoom sur la position
       map.getView().setZoom(11)
@@ -172,9 +176,10 @@ function calculateData(x,y) {
       //refresh de la map
       zone10km.getSource().updateParams({"time": Date.now()})     //Refreq WMS Layer
       ocs10km.getSource().updateParams({"time": Date.now()})      //Refreq WMS Layer
-      poi10km.getSource().updateParams({"time": Date.now()})      //Refreq WMS Layer
+      //poi10km.getSource().updateParams({"time": Date.now()})      //Refreq WMS Layer
       zoneAchat.getSource().updateParams({"time": Date.now()})
       myPositionWfs.getSource().refresh()                         //Refreq WFS Layer
+      poi10kmWfs.getSource().refresh()                         //Refreq WFS Layer
       // refresh de l'onglet POI
       document.getElementById("filtrePoiBtn").innerHTML = 'Catégories'
       //affichage du tableau concerné
@@ -200,7 +205,7 @@ document.getElementById('resetBtn').addEventListener('click', ()=>{
   zoneAchat.setVisible(false)
   myPositionWfs.setVisible(false)
   ocs10km.setVisible(false)
-  poi10km.setVisible(false)
+  poi10kmWfs.setVisible(false)
   document.getElementById("ocsTable").style.display = "none"
   document.getElementById("chart").style.display = "none"
   document.getElementById("resetBtn").style.display = "none"
@@ -218,8 +223,8 @@ document.getElementById('resetBtn').addEventListener('click', ()=>{
 //   GEOLOC     BTN   //
 ////////////////////////
 
-document.getElementById('geolocBtn').addEventListener('click', ()=>{
-  geolocation.setTracking(true);
+document.getElementById('geolocCheckBox').addEventListener('change', function () {
+  geolocation.setTracking(this.checked)
 })
 
 var geolocation = new Geolocation({
@@ -308,7 +313,6 @@ document.getElementById("liensDropdown").addEventListener('click', ()=>{
     document.getElementById("poiAggTable").style.display = "block"
     document.getElementById("poiTable").style.display = "none"
   }
-
 })
 
 
@@ -321,11 +325,11 @@ $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
   if (e.target.id == 'ocsid' && zone10km.getVisible()) {
     console.log("OCS Tab")
     ocs10km.setVisible(true)
-    poi10km.setVisible(false)    
+    poi10kmWfs.setVisible(false)    
   } else if (e.target.id == 'poiid' && zone10km.getVisible()) {
     console.log("POI Tab")
     ocs10km.setVisible(false)
-    poi10km.setVisible(true)
+    poi10kmWfs.setVisible(true)
   } 
 })
 

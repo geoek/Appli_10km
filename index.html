@@ -98,7 +98,7 @@
                 <br>
                 <!-- TABLE  POI AGG-->
                 <table id="poiAggTable" class="table table-striped text-center" style="display: none">
-                  <tr  class="bg-info">
+                  <tr class="bg-info">
                     <th data-column="id" data-order="desc">type</th>
                     <th data-column="type" data-order="desc">nb</th>
                     <!--<th data-column="souscat" data-order="desc">souscat</th>-->
@@ -128,7 +128,10 @@
             <input type="text" class="col-5 form-control" id="nom" placeholder="Saisir Adresse">
             <a href="#" class="col-3 btn btn-primary">Rechercher</a>
             <div class="col-1"></div>
-            <a id="geolocBtn" href="#" class="col-3 btn btn-secondary">Détecter ma position</a>
+            <label for="track">
+              Détecter ma position
+              <input id="geolocCheckBox" type="checkbox"/>
+            </label>
           </div>
         </div>
         <div class="col text-center">
