@@ -76,7 +76,7 @@ var map = new Map({
   view: new View({
     projection: 'EPSG:2154',
     center: [771000,6200000],
-    zoom: 9,
+    zoom: 7,
     extent: [50000, 5800000, 1300000, 7200000],  
   }),
 });
@@ -314,6 +314,7 @@ document.getElementById("liensDropdown").addEventListener('click', ()=>{
     document.getElementById("poiTable").style.display = "none"
   }
 })
+
 
 
 

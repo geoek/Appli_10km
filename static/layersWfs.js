@@ -45,9 +45,9 @@ var ocs10kmWfs = new VectorLayer({
 
       // map the income level codes to a colour value, grouping them
       var incomeLevels = {
-        'librairies': 'rgba(211, 84, 0,1.0)', // high income
+        'librairies': 'rgba(52, 73, 94,1.0)', // high income
         'histoire': 'rgba(52, 152, 219,1.0)', // high income OECD
-        'cinema': 'rgba(52, 73, 94,1.0)', // high income, non-OECD
+        'cinema': 'rgba(211, 84, 0,1.0)', // high income, non-OECD
         'sport': 'rgba(241, 196, 15,1.0)', // upper middle income
       };
 
