@@ -131,9 +131,60 @@ var poi10kmWfs = new VectorLayer({
 	style: styleFunction
 });
 
+var poi10kmSportWfs = new VectorLayer({
+	source: new VectorSrc({
+		/* Chargement du lien WFS en format json*/
+		url: 'http://localhost:8080/geoserver/MyGeoServer/wfs' +
+			'?service=WFS&version=1.1.0&request=getfeature&typeNames=v_poi_10km_sport' +
+			'&srsName=epsg:2154&outputFormat=application/json',
+		format: new GeoJSON(),
+		serverType: 'geoserver',
+	}),
+	title: 'POI 10km (WFS)',
+	style: styleFunction
+});
+
+var poi10kmHistoireWfs = new VectorLayer({
+	source: new VectorSrc({
+		/* Chargement du lien WFS en format json*/
+		url: 'http://localhost:8080/geoserver/MyGeoServer/wfs' +
+			'?service=WFS&version=1.1.0&request=getfeature&typeNames=v_poi_10km_histoire' +
+			'&srsName=epsg:2154&outputFormat=application/json',
+		format: new GeoJSON(),
+		serverType: 'geoserver',
+	}),
+	title: 'POI 10km (WFS)',
+	style: styleFunction
+});
+
+var poi10kmCinemaWfs = new VectorLayer({
+	source: new VectorSrc({
+		/* Chargement du lien WFS en format json*/
+		url: 'http://localhost:8080/geoserver/MyGeoServer/wfs' +
+			'?service=WFS&version=1.1.0&request=getfeature&typeNames=v_poi_10km_cinema' +
+			'&srsName=epsg:2154&outputFormat=application/json',
+		format: new GeoJSON(),
+		serverType: 'geoserver',
+	}),
+	title: 'POI 10km (WFS)',
+	style: styleFunction
+});
+
+var poi10kmLibrairieWfs = new VectorLayer({
+	source: new VectorSrc({
+		/* Chargement du lien WFS en format json*/
+		url: 'http://localhost:8080/geoserver/MyGeoServer/wfs' +
+			'?service=WFS&version=1.1.0&request=getfeature&typeNames=v_poi_10km_librairie' +
+			'&srsName=epsg:2154&outputFormat=application/json',
+		format: new GeoJSON(),
+		serverType: 'geoserver',
+	}),
+	title: 'POI 10km (WFS)',
+	style: styleFunction
+});
 
 
-export {myPositionWfs,ocs10kmWfs,poi10kmWfs}
+export {myPositionWfs,ocs10kmWfs,poi10kmWfs,poi10kmSportWfs,poi10kmHistoireWfs,poi10kmCinemaWfs,poi10kmLibrairieWfs}
 
 
 
